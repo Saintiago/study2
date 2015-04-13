@@ -10,7 +10,8 @@
             $href = pq($a)->attr('href');
             if (strpos($href, '#') !== false)
             {
-              $href = explode('#', $href)[0];
+              $arHref = explode('#', $href);
+              $href = $arHref[0];
             }
             $arLinks[] = $href;
     }
@@ -29,8 +30,14 @@
     $timeout = 5;
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
     curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
     $html = curl_exec($ch);
+    $info = curl_getinfo($ch);
+    if(curl_errno($ch) || ($info["http_code"] != 200))
+    {
+      $html = false;
+    }
     curl_close($ch);
     return $html;
   }

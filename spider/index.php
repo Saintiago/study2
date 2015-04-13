@@ -7,15 +7,37 @@
   require_once("include/spider.inc.php");
   
   $working_path = "https://docs.python.org/3.3/reference/";
+  $arErrors = array();
   
   $html = GetPageHtml($working_path . "index.html");
-  $arLinks = GetInitialLinks($html);
-  
-  foreach ($arLinks as $link)
+  if ($html !== false)
   {
-    $html = GetPageHtml($working_path . $link);
-    $text .= GetArticleText($html) . "<br/>";
+    $arLinks = GetInitialLinks($html);
+  
+    foreach ($arLinks as $link)
+    {
+      $html = GetPageHtml($working_path . $link);
+      if ($html !== false)
+      {
+        $text .= GetArticleText($html) . "<br/>";
+      }
+      else
+      {
+        $arErrors[] = "Error getting page: " . $working_path . $link;
+      }
+    }
+  }
+  else
+  {
+    $arErrors[] = "Error getting contents page (" . $working_path . "index.html )";
   }
   
-  header("Content-Type: text/plain; charset=UTF-8"); 
+  header("Content-Type: text/plain; charset=UTF-8");
+
+  if (count($arErrors) > 0)
+  {
+    echo implode("\n", $arErrors);
+    echo "\n\n";
+  }
+   
   echo strip_tags($text);
