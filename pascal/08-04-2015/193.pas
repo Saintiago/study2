@@ -6,11 +6,8 @@ CONST
 TYPE
   Matrix = SET OF 1..TemplateSize;
 VAR
-  TemplateFile: TEXT;
-  A, B, C: Matrix;
+  CurrMatrix: Matrix;
   Ch: CHAR;
-
-PROCEDURE ReadTemplates
 
 PROCEDURE WritePseudo(Template: Matrix);
 VAR
@@ -34,21 +31,47 @@ BEGIN { WritePseudo }
     END
 END; { WritePsudo }
 
+FUNCTION GetMatrix(Ch: CHAR): Matrix;
+VAR
+  CurrMatrix: Matrix;
+  TemplateFile: TEXT;
+  TemplateCh: CHAR;
+  Cell: INTEGER; 
+BEGIN { GetMatrix }
+  ASSIGN(TemplateFile, 'templates.txt');
+  RESET(TemplateFile);
+  CurrMatrix := [];
+  WHILE NOT EOF(TemplateFile)
+  DO
+    BEGIN
+      READ(TemplateFile, TemplateCh);
+      IF (TemplateCh = Ch)
+      THEN
+        BEGIN
+          WHILE NOT EOLN(TemplateFile)
+          DO
+            BEGIN
+              READ(TemplateFile, Cell);
+              include(CurrMatrix, Cell)
+            END
+        END
+      ELSE
+        READLN(TemplateFile)
+    END;
+  GetMatrix := CurrMatrix  
+END; { GetMatrix }
+
 BEGIN { XPrint }
   
-  A := [3, 7, 9, 12, 14, 16..21, 25];
-  B := [1, 2, 6, 8, 11, 12, 16, 18, 21, 22];
-  C := [2, 3, 6, 9, 11, 16, 19, 22, 23];
-
   WRITE("Enter symbol: ");
   READLN(Ch);
 
-  CASE Ch OF
-    'A': WritePseudo(A);
-    'B': WritePseudo(B);
-    'C': WritePseudo(C);
+  CurrMatrix := GetMatrix(Ch);
+
+  IF CurrMatrix <> []
+  THEN
+    WritePseudo(CurrMatrix)
   ELSE
     WRITELN('Unknown symbol')  
-  END
 
 END. { XPrint }
