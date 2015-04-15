@@ -13,6 +13,7 @@ VAR
   CurrMatrix, ResultMatrix: Matrix;
   Ch: CHAR;
   CharPos: INTEGER;
+  TemplateFile: TEXT;
 
 PROCEDURE WritePseudoString(Template: Matrix);
 VAR
@@ -27,6 +28,7 @@ BEGIN { WritePseudoString }
         BEGIN
           CurPos := IndexRows * ColumnsString + IndexColumns;
           Ch := ' ';
+          // Inserting spaces between letters
           IF ((CurPos > 0) AND ((CurPos MOD ColumnsString) <> 0) AND ((CurPos MOD Columns) = 0))
           THEN
             WRITE(' ');
@@ -39,14 +41,12 @@ BEGIN { WritePseudoString }
     END
 END; { WritePsudoString }
 
-FUNCTION GetMatrix(Ch: CHAR; CharPos: INTEGER): Matrix;
+FUNCTION GetMatrix(Ch: CHAR; CharPos: INTEGER; VAR TemplateFile: TEXT): Matrix;
 VAR
   CurrMatrix: Matrix;
-  TemplateFile: TEXT;
   TemplateCh: CHAR;
   Cell, Indent: INTEGER; 
 BEGIN { GetMatrix }
-  ASSIGN(TemplateFile, 'templates.txt');
   RESET(TemplateFile);
   CurrMatrix := [];
   Indent := Columns * CharPos;
@@ -61,6 +61,7 @@ BEGIN { GetMatrix }
           DO
             BEGIN
               READ(TemplateFile, Cell);
+              // Calculating char matrix cell position in string matrix
               Cell := Indent + (Cell MOD Columns) + ((Cell DIV Columns) * ColumnsString);
               CurrMatrix := CurrMatrix + [Cell]
             END
@@ -72,20 +73,21 @@ BEGIN { GetMatrix }
 END; { GetMatrix }
 
 BEGIN { XPrint }
-
+  // Init
+  ASSIGN(TemplateFile, 'templates.txt');    
   WRITE("Enter symbols (10 max): ");
   CharPos := 0;
   ResultMatrix := [];
-
+  // Main cycle
   WHILE ((NOT EOLN) AND (CharPos < 10))
   DO
     BEGIN
       READ(Ch);   
-      CurrMatrix := GetMatrix(Ch, CharPos);
+      CurrMatrix := GetMatrix(Ch, CharPos, TemplateFile);
       ResultMatrix := ResultMatrix + CurrMatrix;
       CharPos := CharPos + 1
     END;
-
+  // Result output
   IF ResultMatrix <> []
   THEN
     WritePseudoString(ResultMatrix)
