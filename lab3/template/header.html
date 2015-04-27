@@ -1,75 +1,101 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>htmlbook.ru | Для тех, кто делает сайты</title>
-        <link href="css/styles.css" rel="stylesheet" media="all">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>htmlbook.ru | Для тех, кто делает сайты</title>
+    <link href="css/styles.css" rel="stylesheet" media="all">
     <body>
-        <div class="header">
-            <a href="/lab3/" rel="home"><img src="images/logo.png" alt="htmlbook.ru" class="logo" width="184" height="66"></a>
-            <ul id="topmenu">
-                <li class="show"><a href="http://htmlbook.ru/#main"><i class="icon icon-main"></i><br>Основное</a></li>
-                <li class="hide"><a href="http://htmlbook.ru/#html"><i class="icon icon-html"></i><br>HTML</a></li>
-                <li class="hide"><a href="http://htmlbook.ru/#css"><i class="icon icon-css"></i><br>CSS</a></li>
-                <li class="hide"><a href="http://htmlbook.ru/#site"><i class="icon icon-site"></i><br>Сайт</a></li>
-            </ul>
+      <div class="header">
+        <a href="/lab3/" rel="home"><img src="images/logo.png" alt="htmlbook.ru" class="logo" width="184" height="66"></a>
+        <ul id="topmenu">
+          <li class="show">
+            <a href="http://htmlbook.ru/#main"><i class="icon icon-main"></i>
+            <br>
+            Основное</a>
+          </li>
+          <li class="hide">
+            <a href="http://htmlbook.ru/#html"><i class="icon icon-html"></i>
+            <br>
+            HTML</a>
+          </li>
+          <li class="hide">
+            <a href="http://htmlbook.ru/#css"><i class="icon icon-css"></i>
+            <br>
+            CSS</a>
+          </li>
+          <li class="hide">
+            <a href="http://htmlbook.ru/#site"><i class="icon icon-site"></i>
+            <br>
+            Сайт</a>
+          </li>
+        </ul>
 
-            <div id="main" class="tile">
-                <ul>
-                    <li><a href="http://htmlbook.ru/content">Статьи</a></li>
-                    <li><a href="http://htmlbook.ru/blog">Блог</a></li>
-                    <li><a href="http://htmlbook.ru/practical">Практикум</a></li>
-                    <li><a href="http://htmlbook.ru/test">Тесты</a></li>
-                    <li><a href="http://htmlforum.ru/" rel="nofollow">Форум</a></li>
-                </ul>
-            </div>
-            
-            <form action="http://htmlbook.ru/search/" id="cse-search-box">
-                <input type="text" name="as_q" id="q" autocomplete="off" placeholder="Поиск по сайту">
-                <input type="image" src="images/find.png" alt="Найти" class="find">
-            </form>
+        <div id="main" class="tile">
+          <ul>
+            <li>
+              <a href="http://htmlbook.ru/content">Статьи</a>
+            </li>
+            <li>
+              <a href="http://htmlbook.ru/blog">Блог</a>
+            </li>
+            <li>
+              <a href="http://htmlbook.ru/practical">Практикум</a>
+            </li>
+            <li>
+              <a href="http://htmlbook.ru/test">Тесты</a>
+            </li>
+            <li>
+              <a href="http://htmlforum.ru/" rel="nofollow">Форум</a>
+            </li>
+          </ul>
         </div>
-        
-        <div class="layout">
-        
-            <div class="aside">
-                <div class="block" id="block-28">
-                    <div class="block_content">
-                        <form action="http://htmlbook.ru/sites/search/" id="filter" name="filter">
-                            <input autocomplete="off" id="ac" name="q" placeholder="Тег HTML или св-во CSS" type="search">
-                            <input alt="Найти" class="find" src="images/find.png" type="image">
-                        </form>
-                    </div>
-                </div>
-            
-                <div class="block" id="menu-menu-html">
-                    <h2 class="block_title">Теги HTML</h2>
-                    <div class="aside_list">
-                        <ul class="menu">
-                        {foreach from = $leftMenu.Tags
-                                    item = tag}
-                            <li class="leaf">
-                                <a href="{$tag.link}" title="{$tag.name}">{$tag.name}</a>
-                            </li>
-                        {/foreach}
-                        </ul>
-                    </div>
-                </div>
-            
-                <div class="block" id="menu-menu-css">
-                    <h2 class="block_title">Справочник CSS</h2>
-            
-                    <div class="aside_list">
-                         <ul class="menu">
-                        {foreach from = $leftMenu.CSS
-                                    item = tag}
-                            <li class="leaf">
-                                <a href="{$tag.link}" title="{$tag.name}">{$tag.name}</a>
-                            </li>
-                        {/foreach}
-                        </ul>
-                    </div>
-                </div>
+
+        <form action="http://htmlbook.ru/search/" id="cse-search-box">
+          <input type="text" name="as_q" id="q" autocomplete="off" placeholder="Поиск по сайту">
+          <input type="image" src="images/find.png" alt="Найти" class="find">
+        </form>
+      </div>
+
+      <div class="layout">
+
+        <div class="aside">
+          <div class="block" id="block-28">
+            <div class="block_content">
+              <form action="http://htmlbook.ru/sites/search/" id="filter" name="filter">
+                <input autocomplete="off" id="ac" name="q" placeholder="Тег HTML или св-во CSS" type="search">
+                <input alt="Найти" class="find" src="images/find.png" type="image">
+              </form>
             </div>
-            
-            <div id="content">
+          </div>
+
+          <div class="block" id="menu-menu-html">
+            <h2 class="block_title">Теги HTML</h2>
+            <div class="aside_list">
+              <ul class="menu">
+                {foreach from = $leftMenu.Tags
+                item = tag}
+                <li class="leaf">
+                  <a href="{$tag.link}" title="{$tag.name}">{$tag.name}</a>
+                </li>
+                {/foreach}
+              </ul>
+            </div>
+          </div>
+
+          <div class="block" id="menu-menu-css">
+            <h2 class="block_title">Справочник CSS</h2>
+
+            <div class="aside_list">
+              <ul class="menu">
+                {foreach from = $leftMenu.CSS
+                item = tag}
+                <li class="leaf">
+                  <a href="{$tag.link}" title="{$tag.name}">{$tag.name}</a>
+                </li>
+                {/foreach}
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div id="content">
