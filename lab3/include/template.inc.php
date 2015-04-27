@@ -52,5 +52,5 @@
              array("name" => "-ms-interpolation-mode", "link" => "#")
         );
         
-        return array("Tags" => $arTags, "CSS" => $arCss);  
+        return array("tags" => $arTags, "css" => $arCss);  
     }
