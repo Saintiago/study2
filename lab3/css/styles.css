@@ -156,7 +156,7 @@ body
     background: linear-gradient(to bottom, #eee 0%, #fff 100%);
 }
 
-.footer section 
+.footer .section 
 {
   width: 190px;
   float: left;
@@ -169,7 +169,7 @@ body
   margin: 0;
 }
 
-.footer section p 
+.footer .section p 
 {
   margin: 3px 0 4px 15px;
 }
