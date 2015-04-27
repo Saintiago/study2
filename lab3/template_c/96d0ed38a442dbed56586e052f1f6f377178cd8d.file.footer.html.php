@@ -1,4 +1,25 @@
-        </div>
+<?php /* Smarty version Smarty-3.1.21-dev, created on 2015-04-27 18:14:47
+         compiled from "C:\web\server2go\htdocs\lab3\template\footer.html" */ ?>
+<?php /*%%SmartyHeaderCode:6114553e5ec2578236-79102897%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+$_valid = $_smarty_tpl->decodeProperties(array (
+  'file_dependency' => 
+  array (
+    '96d0ed38a442dbed56586e052f1f6f377178cd8d' => 
+    array (
+      0 => 'C:\\web\\server2go\\htdocs\\lab3\\template\\footer.html',
+      1 => 1430151201,
+      2 => 'file',
+    ),
+  ),
+  'nocache_hash' => '6114553e5ec2578236-79102897',
+  'function' => 
+  array (
+  ),
+  'version' => 'Smarty-3.1.21-dev',
+  'unifunc' => 'content_553e5ec257ee72_89097762',
+  'has_nocache_code' => false,
+),false); /*/%%SmartyHeaderCode%%*/?>
+<?php if ($_valid && !is_callable('content_553e5ec257ee72_89097762')) {function content_553e5ec257ee72_89097762($_smarty_tpl) {?>        </div>
     </div>
     
     <div class="footer">
@@ -46,4 +67,4 @@
 
 </body>  
   
-</html>
+</html><?php }} ?>
