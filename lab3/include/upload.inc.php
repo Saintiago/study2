@@ -51,7 +51,11 @@
     {
         global $allowedTypes;
         $res = 1;
-        if (in_array($_FILES['uploadfile']['type'], $allowedTypes))
+        if ($_FILES['uploadfile']['error'] > 0)
+        {
+            $res = 2;
+        }
+        elseif (in_array($_FILES['uploadfile']['type'], $allowedTypes))
         {
             $uploadfile = UPLOADS_DIR . basename($_FILES['uploadfile']['name']);
             if (copy($_FILES['uploadfile']['tmp_name'], $uploadfile))
