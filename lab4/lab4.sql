@@ -33,16 +33,16 @@ CREATE TABLE offer
 INSERT INTO dvd
 (title, production_year)
 VALUES
-("Die hard", 1989),
-("Lethal weapon", 1990),
-("Terminator", 1992);
+('Die hard', 1989),
+('Lethal weapon', 1990),
+('Terminator', 1992);
 
 INSERT INTO customer
 (first_name, last_name, passport_code, registration_date)
 VALUES
-("John", "Smith", 1234567890, 2000-05-12),
-("Jack", "Johnson", 1234567890, 2000-03-13),
-("Steven", "Spielberg", 1234567890, 2000-07-01);
+('John', 'Smith', 1234567890, 2000-05-12),
+('Jack', 'Johnson', 1234567890, 2000-03-13),
+('Steven', 'Spielberg', 1234567890, 2000-07-01);
 
 INSERT INTO offer
 (dvd_id, customer_id, offer_date, return_date)
