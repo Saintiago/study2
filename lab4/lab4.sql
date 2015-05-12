@@ -54,3 +54,5 @@ VALUES
 SELECT * FROM dvd WHERE production_year = 2010 ORDER BY name DESC;
 
 SELECT * FROM dvd WHERE dvd_id IN (SELECT dvd_id FROM offer WHERE return_date > NOW());
+
+SELECT customer.name, customer.offer_date, dvd.name FROM (dvd JOIN customer ON dvd_id = dvd_id) WHERE YEAR(customer.offer_date) = YEAR(NOW()); 
