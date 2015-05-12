@@ -1,14 +1,14 @@
 <?php
     function GetParam($paramName)
     {
-        return (isset($_GET[$paramName]))
-            ? $_GET[$paramName]
+        return (isset($_REQUEST[$paramName]))
+            ? $_REQUEST[$paramName]
             : '';
     }
 
     function GetAllParams()
     {
-        foreach ($_GET as $name => $value)
+        foreach ($_REQUEST as $name => $value)
         {
             $arParams[$name] = GetParam($name);
         }

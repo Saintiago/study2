@@ -13,7 +13,7 @@
         return $smarty->fetch($template);
     }
   
-    function BuildPage($template, $vars)
+    function BuildPage($template, $vars = array())
     {
         $vars["leftMenu"] = GetMenu();
         $header = GetView("header.html", $vars);
