@@ -40,19 +40,25 @@ VALUES
 INSERT INTO customer
 (first_name, last_name, passport_code, registration_date)
 VALUES
-('John', 'Smith', 1234567890, 2000-05-12),
-('Jack', 'Johnson', 1234567890, 2000-03-13),
-('Steven', 'Spielberg', 1234567890, 2000-07-01);
+("John", "Smith", 1234567890, '2000-05-12'),
+("Jack", "Johnson", 1234567890, '2000-03-13'),
+("Steven", "Spielberg", 1234567890, '2000-07-01');
 
 INSERT INTO offer
 (dvd_id, customer_id, offer_date, return_date)
 VALUES
-(1, 1, 2000-02-15, 2000-02-16),
-(2, 2, 2000-03-14, 2000-03-15),
-(3, 3, 2000-05-13, 2000-05-14);
+(1, 1, '2015-2-15', '2015-2-16'),
+(2, 2, '2014-3-14', '2014-3-15'),
+(3, 3, '2015-5-13', '2015-5-14');
 
-SELECT * FROM dvd WHERE production_year = 2010 ORDER BY name DESC;
+SELECT * FROM dvd WHERE production_year = 2010 ORDER BY title DESC;
 
 SELECT * FROM dvd WHERE dvd_id IN (SELECT dvd_id FROM offer WHERE return_date > NOW());
 
-SELECT customer.name, customer.offer_date, dvd.name FROM (dvd JOIN customer ON dvd_id = dvd_id) WHERE YEAR(customer.offer_date) = YEAR(NOW()); 
+SELECT c.last_name, c.first_name, o.offer_date, d.title 
+FROM offer AS o
+INNER JOIN customer AS c 
+ON c.customer_id = o.customer_id
+INNER JOIN dvd AS d 
+ON d.dvd_id = o.dvd_id 
+WHERE YEAR(o.offer_date) = YEAR(NOW()); 
