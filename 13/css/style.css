@@ -35,7 +35,7 @@ img
 body
 {
     background: url("../images/page_bg.png") repeat #fff;
-    /*background: url("../bg.png") no-repeat scroll 351px top #fff*/
+    /*background: url("../bg.png") no-repeat scroll 351px top #fff;*/
 }
 
 .container
@@ -50,8 +50,6 @@ body
 
 .header
 {
-    height: 56px;
-    margin-left: -6px;
 }
 
 .header .logo
@@ -62,6 +60,7 @@ body
     float: left;
     font: 36px Helvetica;
     height: 53px;
+    margin-left: -6px;
     padding: 3px 0 0 96px;
     text-decoration: none;
 }
@@ -71,7 +70,7 @@ body
     border-left: 1px solid #cac8c5;
     float: left;
     height: 52px;
-    margin-left: 33px;
+    margin: 0 0 34px 33px;
     padding: 4px 0 0 27px;
 }
 
@@ -92,12 +91,11 @@ body
 {
     border-bottom: 1px solid #ababab;
     border-top: 1px solid #ababab;
-    clear: left;
+    clear: both;
     height: 42px;
     list-style: outside none none;
-    margin: 34px 1px 59px -1px;
+    margin: 0 1px 59px -1px;
     padding-left: 70px;
-    width: 858px;
 }
 
 .top_menu li
@@ -207,14 +205,15 @@ body
 
 .more_link
 {
-    background: url("../images/more_arrow.png") no-repeat scroll 43px top #2b2b29;
+    background: url("../images/more_arrow.png") no-repeat scroll right top #2b2b29;
+    border-right: 1px solid #373736;
     color: #fff;
     display: block;
     float: right;
     font: 12.18px/14px Tahoma;
     height: 15px;
     margin: -2px 2px 0 0;
-    padding: 0 23px 0 7px;
+    padding: 0 22px 0 7px;
     text-decoration: none;
 }
 
@@ -222,23 +221,21 @@ body
 {
     border-bottom: 1px solid #cccccc;
     clear: both;
-    padding: 0 0 23px;
-    margin-bottom: 29px;
+    padding: 0 0 33px;
 }
 
 .second_content_block
 {
-    clear: both;
     padding: 0 0 23px;
-    margin-bottom: 36px;
+    margin-bottom: 29px;
+    border-bottom: 1px solid #cccccc;
 }
 
 .third_content_block
 {
     border-bottom: 1px solid #cccccc;
     border-top: 1px solid #cccccc;
-    clear: both;
-    padding: 0 0 33px;
+    padding: 0 0 58px;
 }
 
 .news
@@ -480,12 +477,13 @@ body
     width: 66px;
 }
 
-.bottom_menu {
+.bottom_menu
+{
     display: block;
     height: 14px;
     list-style: outside none none;
     margin: 18px auto 0;
-    width: 432px;
+    width: 450px;
 }
 
 .bottom_menu li.first::before
@@ -494,12 +492,14 @@ body
     margin-right: 0;
 }
 
-.bottom_menu li::before {
+.bottom_menu li::before
+{
     content: "|";
     margin-right: 7px;
     text-transform: none;
 }
-.bottom_menu li {
+.bottom_menu li
+{
     color: #535353;
     float: left;
     font: 10px Arial;
