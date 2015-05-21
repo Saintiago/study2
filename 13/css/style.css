@@ -34,8 +34,8 @@ img
 
 body
 {
-    background: url("../images/page_bg.png") repeat #fff;
-    /*background: url("../bg.png") no-repeat scroll 351px top #fff;*/
+    /*background: url("../images/page_bg.png") repeat #fff;*/
+    background: url("../bg.png") no-repeat scroll 351px top #fff;
 }
 
 .container
@@ -45,7 +45,7 @@ body
     margin: 51px auto;
     padding: 42px 35px 16px 41px;
     width: 927px;
-    background-color: #fff;
+    /*background-color: #fff;*/
 }
 
 .header
@@ -234,8 +234,7 @@ body
 .third_content_block
 {
     border-bottom: 1px solid #cccccc;
-    border-top: 1px solid #cccccc;
-    padding: 0 0 58px;
+    padding: 0 0 59px;
 }
 
 .news
