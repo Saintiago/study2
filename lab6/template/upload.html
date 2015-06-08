@@ -1,0 +1,17 @@
+<h1 class="title">Загрузка файла на сервер</h1>﻿
+<div class="messages">
+  {$message}
+</div>
+<div class="images">
+  {foreach from = $images item = image}
+  <img src="{$image}" alt="" />
+  {/foreach}
+</div>
+<div class="block" id="system-main">
+  <div class="block_content">
+    <form action="/lab3/upload.php" method="post" enctype="multipart/form-data">
+      <input type="file" name="uploadfile"><br />
+      <input type="submit" name="uploaded" value="Загрузить">
+    </form>
+  </div>
+</div>
