@@ -1,20 +1,16 @@
-PROGRAM CountWords(INPUT, OUTPUT);
+PROGRAM Words(INPUT, OUTPUT);
 
-USES TextAnalyzer;
-
-CONST
-  MAX_WORDS = 100;
+USES WordCounterSimple;
 
 VAR
   SourceFile, ResultFile: TEXT;
 
 BEGIN { CountWords }
 
-  ASSIGN(SourceFile, 'source_sm.txt');
+  ASSIGN(SourceFile, 'source.txt');
   ASSIGN(ResultFile, 'result.txt');
 
   CountWords(SourceFile, ResultFile);
-  PrintList();
 
   CLOSE(SourceFile);
   CLOSE(ResultFile)
