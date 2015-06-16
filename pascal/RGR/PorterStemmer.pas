@@ -2,7 +2,7 @@ UNIT PorterStemmer;
 
 INTERFACE
 
-  FUNCTION Stem(VAR Word: STRING): STRING;
+  FUNCTION Stem(Word: STRING): STRING;
 
 IMPLEMENTATION
 
@@ -133,7 +133,6 @@ IMPLEMENTATION
   
   PROCEDURE RemoveWordEnding(VAR Word: STRING);
   BEGIN
-    WRITELN('удалаяем с ', Pos);   
     IF Pos > 0 THEN Delete(Word, Pos)
   END;
   
@@ -256,7 +255,6 @@ IMPLEMENTATION
   VAR
     i, WordLength: INTEGER;
   BEGIN { RemovePerfectiveGerund }
-    WRITE('Perfective gerund ');
     Pos := 0;
     WordLength := Length(Word);
     FOR i := WordLength DOWNTO RvStart
@@ -271,7 +269,6 @@ IMPLEMENTATION
   VAR
     i, WordLength: INTEGER;
   BEGIN
-    WRITE('Reflexive ');
     Pos := 0;
     WordLength := Length(Word);
     FOR i := WordLength DOWNTO RvStart
@@ -298,7 +295,6 @@ IMPLEMENTATION
   VAR
     i, WordLength: INTEGER;
   BEGIN 
-    WRITE('Adjectival ');
     Pos := 0;
     WordLength := Length(Word);
     FOR i := WordLength DOWNTO RvStart
@@ -313,7 +309,6 @@ IMPLEMENTATION
   VAR
     i, WordLength: INTEGER;
   BEGIN
-    WRITE('Verb ');
     Pos := 0;
     WordLength := Length(Word);
     FOR i := WordLength DOWNTO RvStart
@@ -328,7 +323,6 @@ IMPLEMENTATION
   VAR
     i, WordLength: INTEGER;
   BEGIN
-    WRITE('Noun ');
     Pos := 0;
     WordLength := Length(Word);
     FOR i := WordLength DOWNTO RvStart
@@ -343,7 +337,6 @@ IMPLEMENTATION
   VAR
     i, WordLength: INTEGER;
   BEGIN
-    WRITE('Derivational ');
     Pos := 0;
     WordLength := Length(Word);
     FOR i := WordLength DOWNTO R2Start
@@ -358,7 +351,6 @@ IMPLEMENTATION
   VAR
     WordLength: INTEGER;
   BEGIN
-    WRITE('I ');
     Pos := 0;
     WordLength := Length(Word);
     IF IsI(WordLength, Word) 
@@ -371,7 +363,6 @@ IMPLEMENTATION
   VAR
     WordLength: INTEGER;
   BEGIN
-    WRITE('N ');
     Pos := 0;
     WordLength := Length(Word);
     IF WordLength < 2 THEN EXIT;
@@ -385,7 +376,6 @@ IMPLEMENTATION
   VAR
     i, WordLength: INTEGER;
   BEGIN
-    WRITE('Superlative ');
     Pos := 0;
     WordLength := Length(Word);
     FOR i := WordLength DOWNTO RvStart
@@ -400,7 +390,6 @@ IMPLEMENTATION
   VAR
     WordLength: INTEGER;
   BEGIN
-    WRITE('Soft sign  ');
     Pos := 0;
     WordLength := Length(Word);
     IF IsSoftSign(WordLength, Word) 

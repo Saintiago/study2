@@ -1,4 +1,4 @@
-PROGRAM Words(INPUT, OUTPUT);
+PROGRAM GatherWords(INPUT, OUTPUT);
 
 USES WordGatherer;
 
