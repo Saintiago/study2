@@ -2,10 +2,6 @@ UNIT WordCounter;
 
 INTERFACE
 
-  PROCEDURE CountWords(VAR SourceFile: TEXT; VAR ResultFile: TEXT);
-
-IMPLEMENTATION
-
   TYPE
     NodePtr = ^Node;
     Node = RECORD
@@ -13,13 +9,21 @@ IMPLEMENTATION
              Word: STRING;
              Qty: INTEGER
            END; 
-             
+  
+  FUNCTION InitializeIoFiles(): BOOLEAN;
+  PROCEDURE CountWords();
+  PROCEDURE ReadFromFile(VAR Row: Node; VAR Source: TEXT);
+  PROCEDURE WriteToFile(VAR Row: Node; VAR Result: TEXT);
+
+IMPLEMENTATION
+
   CONST
     MAX_LIST_LENGTH = 10;
     ALLOWED_CHARS = ['À' .. 'ÿ'];
     MIN_WORD_LENGTH = 3;
 
   VAR
+    SourceFile, ResultFile, GatheredFile: TEXT;
     ListLength: INTEGER;
     FirstPtr: NodePtr;
 
@@ -235,8 +239,21 @@ IMPLEMENTATION
       END;
     ClearMem()  
   END; { StoreResult }
+  
+  FUNCTION InitializeIoFiles(): BOOLEAN;
+  BEGIN
+    IF (ParamCount >= 2)
+    THEN
+      BEGIN
+        ASSIGN(SourceFile, ParamStr(1));  
+        ASSIGN(ResultFile, ParamStr(2));
+        InitializeIoFiles := TRUE
+      END
+    ELSE
+      InitializeIoFiles := FALSE    
+  END;
 
-  PROCEDURE CountWords(VAR SourceFile: TEXT; VAR ResultFile: TEXT);
+  PROCEDURE CountWords();
   VAR
     Word: STRING;
   BEGIN { CountWords }
@@ -260,6 +277,6 @@ IMPLEMENTATION
       END;
     StoreResult(ResultFile)
   END; { CountWords }
-
+  
 BEGIN
 END.

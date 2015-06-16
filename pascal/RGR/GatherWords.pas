@@ -1,22 +1,14 @@
-PROGRAM GatherWords(INPUT, OUTPUT);
+PROGRAM Words(INPUT, OUTPUT);
 
-USES
-  PorterStemmer;
-  WordGatherer;
+USES WordGatherer;
 
-VAR
-  Word: STRING;
-  i: INTEGER;
+BEGIN { CountWords }
 
-BEGIN { GatherWords }
- 
-  WRITELN('Program: ', ParamStr(0));
-  FOR i := 1 to ParamCount do
-    WRITELN('Param ', i, ': ', ParamStr(i));
+  IF NOT InitializeIoFiles()
+  THEN
+    WRITELN('Specify input and output files');
+  
+  GatherWords();
 
-  Word := ' –Œ¬¿“‹ﬁ';
-  WRITELN(Word);
-  WRITELN(Stem(Word))
-
-END. { GatherWords }
+END. { CountWords }
 
