@@ -16,6 +16,9 @@ IMPLEMENTATION
     ALLOWED_CHARS = ['À' .. 'ÿ'];
     MIN_WORD_LENGTH = 3;
 
+  VAR
+    IoCount: INTEGER;
+
   PROCEDURE ReadWord(VAR Word: STRING; VAR SourceFile: TEXT);
   CONST
     WORD_END = 'e';
@@ -32,6 +35,7 @@ IMPLEMENTATION
     WHILE (NOT EOF(SourceFile)) AND (WordState <> WORD_END)
     DO
       BEGIN
+        IoCount := IoCount + 1;
         READ(SourceFile, Ch);
         Ch := UpCase(Ch);
         Allowed := (Ch IN ALLOWED_CHARS);
@@ -69,6 +73,7 @@ IMPLEMENTATION
         WHILE NOT EOLN(FromFile)
         DO
           BEGIN
+            IoCount := IoCount + 2;
             READ(FromFile, Ch);
             WRITE(ToFile, Ch)
           END;
@@ -85,6 +90,7 @@ IMPLEMENTATION
     THEN
       BEGIN
         ReadWord(Row.Word, Source);
+        IoCount := IoCount + 2;
         READ(Source, Row.Qty);
         READLN(Source)
       END  
@@ -92,6 +98,7 @@ IMPLEMENTATION
 
   PROCEDURE WriteToFile(VAR Row: Node; VAR Result: TEXT);
   BEGIN { WriteToFile }
+    IoCount := IoCount + 1;
     WRITELN(Result, Row.Word, ' ', Row.Qty)
   END; { WriteToFile }
 
@@ -164,8 +171,10 @@ IMPLEMENTATION
             StoreResult(Word, ResultFile)
           END;
         READLN(SourceFile)
-      END
+      END;
+    WRITELN('IO count: ', IoCount)  
   END; { CountWords }
 
 BEGIN
+  IoCount := 0;
 END.
