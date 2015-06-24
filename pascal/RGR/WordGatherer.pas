@@ -2,8 +2,7 @@ UNIT WordGatherer;
 
 INTERFACE
 
-  FUNCTION InitializeIoFiles(): BOOLEAN;
-  PROCEDURE GatherWords();
+  PROCEDURE GatherWords(Source: STRING; Result: STRING);
 
 IMPLEMENTATION
 
@@ -14,24 +13,20 @@ IMPLEMENTATION
   VAR  
     SourceFile, ResultFile: TEXT;
   
-  FUNCTION InitializeIoFiles(): BOOLEAN;
+  PROCEDURE InitializeIoFiles(VAR Source: STRING; VAR Result: STRING);
   BEGIN
-    IF (ParamCount >= 2)
-    THEN
-      BEGIN
-        ASSIGN(SourceFile, ParamStr(1));  
-        ASSIGN(ResultFile, ParamStr(2));
-        InitializeIoFiles := TRUE
-      END
-    ELSE
-      InitializeIoFiles := FALSE    
+    CheckExistance(Source);
+    CheckExistance(Result);
+    ASSIGN(SourceFile, Source);  
+    ASSIGN(ResultFile, Result)
   END;
     
-  PROCEDURE GatherWords();
+  PROCEDURE GatherWords(Source: STRING; Result: STRING);
   VAR
     WordCurr, WordNext: Node;
     StemCurr, StemNext: STRING;
   BEGIN
+    InitializeIoFiles(Source, Result);
     RESET(SourceFile);
     REWRITE(ResultFile);
     ReadFromFile(WordCurr, SourceFile);

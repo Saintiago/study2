@@ -4,11 +4,7 @@ USES WordCounter;
 
 BEGIN { CountWords }
 
-  IF NOT InitializeIoFiles()
-  THEN
-    WRITELN('Specify input and output files');
-  
-  CountWords();
+  CountWords(ParamStr(1), ParamStr(2));
 
 END. { CountWords }
 

@@ -10,21 +10,26 @@ INTERFACE
              Qty: INTEGER
            END; 
   
-  FUNCTION InitializeIoFiles(): BOOLEAN;
-  PROCEDURE CountWords();
+  PROCEDURE CheckExistance(Path: STRING); 
+  PROCEDURE CountWords(Source: STRING; Result: STRING);
   PROCEDURE ReadFromFile(VAR Row: Node; VAR Source: TEXT);
   PROCEDURE WriteToFile(VAR Row: Node; VAR Result: TEXT);
+  PROCEDURE ReadWord(VAR Word: STRING; VAR SourceFile: TEXT);
+  PROCEDURE SortByFreq(Path: STRING);
 
 IMPLEMENTATION
 
+  USES
+    GPC;
+
   CONST
-    MAX_LIST_LENGTH = 1000;
-    ALLOWED_CHARS = ['À' .. 'ÿ'];
+    MAX_LIST_LENGTH = 500;
+    ALLOWED_CHARS = ['à' .. 'ÿ', 'a' .. 'z'];
     MIN_WORD_LENGTH = 3;
 
   VAR
     SourceFile, ResultFile, GatheredFile: TEXT;
-    ListLength, IoCount: INTEGER;
+    ListLength: INTEGER;
     FirstPtr: NodePtr;
 
   PROCEDURE ReadWord(VAR Word: STRING; VAR SourceFile: TEXT);
@@ -43,9 +48,8 @@ IMPLEMENTATION
     WHILE (NOT EOF(SourceFile)) AND (WordState <> WORD_END)
     DO
       BEGIN
-        IoCount := IoCount + 1;
         READ(SourceFile, Ch);
-        Ch := UpCase(Ch);
+        Ch := LoCase(Ch);
         Allowed := (Ch IN ALLOWED_CHARS);
         IF Allowed AND (WordState = WORD_IN)
         THEN
@@ -69,7 +73,7 @@ IMPLEMENTATION
       ReadWord(Word, SourceFile)
   END; { ReadWord }
 
-  PROCEDURE InsertWord(VAR Word: STRING);
+  PROCEDURE InsertWordByAlpha(VAR Word: STRING);
   CONST
     EQUAL = 'e';
     FOUND = 'f';
@@ -77,7 +81,7 @@ IMPLEMENTATION
   VAR
     NewWord, Curr, Prev: NodePtr;
     SearchState: CHAR;
-  BEGIN  { InsertWord }
+  BEGIN  { InsertWordByAlpha }
     IF Word = ''
     THEN
       EXIT;
@@ -126,7 +130,55 @@ IMPLEMENTATION
             NewWord^.Next := Curr
           END
       END
-  END;  { InsertWord }
+  END;  { InsertWordByAlpha }
+  
+  PROCEDURE InsertWordByFreq(VAR NewWord: Node);
+  CONST
+    FOUND = 'f';
+    SEARCHING = 's';
+  VAR
+    NewWordPtr, Curr, Prev: NodePtr;
+    SearchState: CHAR;
+  BEGIN  { InsertWordByFreq }
+    IF NewWord.Word = ''
+    THEN
+      EXIT;
+    Curr := FirstPtr;
+    Prev := NIL;
+    NEW(NewWordPtr);
+    NewWordPtr^.Word := NewWord.Word;
+    NewWordPtr^.Qty := NewWord.Qty;
+    NewWordPtr^.Next := NIL;
+    SearchState := SEARCHING;
+    WHILE (Curr <> NIL) AND (SearchState = SEARCHING)
+    DO
+      BEGIN
+        IF NewWordPtr^.Qty > Curr^.Qty
+        THEN
+          SearchState := FOUND
+        ELSE IF NewWordPtr^.Qty <= Curr^.Qty
+        THEN
+          BEGIN
+            Prev := Curr;
+            Curr := Curr^.Next
+          END
+      END;
+      IF Prev = NIL
+      THEN
+        BEGIN
+          NewWordPtr^.Next := FirstPtr;
+          FirstPtr := NewWordPtr
+        END
+      ELSE IF SearchState = SEARCHING
+      THEN
+        Prev^.Next := NewWordPtr
+      ELSE IF SearchState = FOUND
+      THEN
+        BEGIN
+          Prev^.Next := NewWordPtr;
+          NewWordPtr^.Next := Curr
+        END
+  END;  { InsertWordByFreq }
 
   PROCEDURE CopyFile(VAR FromFile: TEXT; VAR ToFile: TEXT);
   VAR
@@ -140,7 +192,6 @@ IMPLEMENTATION
         WHILE NOT EOLN(FromFile)
         DO
           BEGIN
-            IoCount := IoCount + 2;
             READ(FromFile, Ch);
             WRITE(ToFile, Ch)
           END;
@@ -158,7 +209,6 @@ IMPLEMENTATION
     THEN
       BEGIN
         ReadWord(Row.Word, Source);
-        IoCount := IoCount + 2;
         READ(Source, Row.Qty);
         READLN(Source)
       END  
@@ -166,7 +216,6 @@ IMPLEMENTATION
 
   PROCEDURE WriteToFile(VAR Row: Node; VAR Result: TEXT);
   BEGIN { WriteToFile }
-    IoCount := IoCount + 1;
     WRITELN(Result, Row.Word, ' ', Row.Qty)
   END; { WriteToFile }
 
@@ -244,27 +293,22 @@ IMPLEMENTATION
     ClearMem()  
   END; { StoreResult }
   
-  FUNCTION InitializeIoFiles(): BOOLEAN;
+  PROCEDURE InitializeIoFiles(VAR Source: STRING; VAR Result: STRING);
   BEGIN
-    IF (ParamCount >= 2)
-    THEN
-      BEGIN
-        ASSIGN(SourceFile, ParamStr(1));  
-        ASSIGN(ResultFile, ParamStr(2));
-        InitializeIoFiles := TRUE
-      END
-    ELSE
-      InitializeIoFiles := FALSE    
+    CheckExistance(Source);
+    CheckExistance(Result);
+    ASSIGN(SourceFile, Source);  
+    ASSIGN(ResultFile, Result)
   END;
 
-  PROCEDURE CountWords();
+  PROCEDURE CountWords(VAR Source: STRING; VAR Result: STRING);
   VAR
     Word: STRING;
   BEGIN { CountWords }
+    InitializeIoFiles(Source, Result);
     FirstPtr := NIL;
     ListLength := 0;
     RESET(SourceFile);
-    REWRITE(ResultFile);
     WHILE NOT EOF(SourceFile)
     DO
       BEGIN
@@ -272,17 +316,47 @@ IMPLEMENTATION
         DO
           BEGIN
             ReadWord(Word, SourceFile);
-            InsertWord(Word);
+            InsertWordByAlpha(Word);
             IF ListLength >= MAX_LIST_LENGTH
             THEN
               StoreResult(ResultFile)
           END;
         READLN(SourceFile)
       END;
-    StoreResult(ResultFile);
-    WRITELN('IO count: ', IoCount);
+    StoreResult(ResultFile)
   END; { CountWords }
   
+  PROCEDURE SortByFreq(Path: STRING);
+  VAR
+    SourceFile, Temp: TEXT;
+    CurrWord: Node;
+  BEGIN { CountWords }
+    CheckExistance(Path);
+    ASSIGN(SourceFile, Path);
+    CopyFile(SourceFile, Temp);
+    RESET(Temp);
+    FirstPtr := NIL;
+    WHILE NOT EOF(Temp)
+    DO
+      BEGIN
+        ReadFromFile(CurrWord, Temp);
+        IF (CurrWord.Qty > 1)
+        THEN
+          InsertWordByFreq(CurrWord);
+      END;
+    REWRITE(SourceFile);  
+    StoreResult(SourceFile)
+  END; { CountWords }
+  
+  PROCEDURE CheckExistance(Path: STRING); 
+  BEGIN
+    IF NOT PathExists(Path)
+    THEN
+      BEGIN
+        WRITELN('Error. Path ', Path, ' not found.');
+        HALT
+      END  
+  END;
+  
 BEGIN
-  IoCount := 0
 END.
